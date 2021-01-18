@@ -1,4 +1,5 @@
 # Raspberry - PwmFanControl
+
 Phyton script that monitors the temperature and adjusts the speed of the cooling fan.  
 For Raspberry and 5V FAN.
 
@@ -8,6 +9,7 @@ First release: **18/01/2021**
 ## Notes
 
 Script for Raspberry Pi  
+Required modules: RPi, gpiozero (*pip install gpiozero*)  
 The phyton file is **fan_by_pwm.py**  
 Script for **Phyton 3.7+**  
 Configuration file: **fancontrol.cfg**  
@@ -52,7 +54,6 @@ Speeds: [ 50, 75, 100 ]
 ON_THRESOLD < T < 45 => SPEED 50%  
 45 < T < 55&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> SPEED 75%  
 55 < T < 9999&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=> SPEED 100%  
-
 
 ## Eletronic
 
