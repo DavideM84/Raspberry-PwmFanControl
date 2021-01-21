@@ -46,7 +46,6 @@ def loadConfig():
     tmp = safe_cast(cfg.get("Settings", "LOG_LEVEL"), int, 0)
     if (tmp != 0):
         LOG_LEVEL = tmp
-        logger.setLevel(LOG_LEVEL)
     else:
         logger.warning("Invalid value for 'LOG_VALUE'. Use default")
     tmp = safe_cast(cfg.get("Settings", "GPIO_PIN"), int, 0)
@@ -116,26 +115,28 @@ def checkTemp():
                     break
 
             if (currDC != prevDC):
-                logger.info(f"CHANGE DUTY-CYCLE: {prevDC} --> {currDC}  ({currTemp}°C)")
+                logger.debug(f"CHANGE DUTY-CYCLE: {prevDC} --> {currDC}  ({currTemp}°C)")
                 fan.ChangeDutyCycle(100)
                 time.sleep(1)
                 fan.ChangeDutyCycle(currDC)
                 prevDC = currDC
 
-            logger.debug(f"CPU TEMP: {currTemp}°C FAN: {fanRunning} ({currDC})")
+            logger.info(f"CPU TEMP: {currTemp}°C FAN: {fanRunning} ({currDC})")
         else:
-            logger.debug(f"CPU TEMP: {currTemp}°C FAN: {fanRunning}")
+            logger.info(f"CPU TEMP: {currTemp}°C FAN: {fanRunning}")
 
 try:
     prevDC = 0
     fanRunning = False
     cleanupGPIO = False
     # setup log
+    formatter = logging.Formatter("%(asctime)s - %(levelname)s > %(message)s")
     logger = logging.getLogger("FanByTempLog")
     logger.setLevel(logging.DEBUG)
     handler = logging.handlers.RotatingFileHandler(LOG_FILENAME, maxBytes=1000000, backupCount=3)
+    handler.setFormatter(formatter)
     logger.addHandler(handler)
-    logger.info(f'{datetime.now().strftime("%d/%m/%Y, %H:%M:%S")} Service startup ...')
+    logger.debug("Service startup ...")
 
     # load config file
     if os.path.exists(CFG_FILE):
@@ -144,6 +145,8 @@ try:
         cfg.read(CFG_FILE)
         # load Settings
         loadConfig()
+        logger.setLevel(LOG_LEVEL)
+        handler.setLevel(LOG_LEVEL)
         # load currTemperatures
         loadTemperatures()
     else:
