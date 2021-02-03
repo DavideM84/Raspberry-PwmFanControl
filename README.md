@@ -40,12 +40,12 @@ Each x seconds check the CPU Temperature
 
 ### ON_THRESOLD
 
-Above this temperature the FAN starting.  
-When under FAN stop.
+Above this temperature the FAN start.  
+When it drops below this value it switches off.
 
 ### Temps and Speed
 
-This two array indicate temperature inteval and fan speed to set.  
+This two array indicate temperature interval and fan speed to set.  
 
 Example:  
 Temps:  [ 45, 55, 9999 ]  
